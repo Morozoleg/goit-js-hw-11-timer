@@ -7,15 +7,14 @@ const refs = {
 const CountdownTimer = {
   intervalId: null,
   countDown(date) {
+    if (this.intervalId) return;
     const targetDate = new Date(date);
     this.intervalId = setInterval(() => {
-      const currentDate = Date.now();
-      const deltaTime = targetDate - currentDate;
-      this.updateClockface(deltaTime);
-      if (this.deltaTime <= 0) {
-        clearInterval(intervalId), (this.intervalId = null);
-        updateClockface(0);
-      }
+      // const currentDate = Date.now();
+      targetDate > Date.now()
+      ? this.updateClockface(targetDate - Date.now())
+     : clearInterval(this.intervalId), 
+        (this.intervalId = null);
     }, 1000);
   },
   updateClockface(time) {
@@ -36,4 +35,4 @@ const CountdownTimer = {
   },
 };
 
-CountdownTimer.countDown('Apr 17, 2021, 01:18:00');
+CountdownTimer.countDown('Apr 28, 2021, 19:22:00');
