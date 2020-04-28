@@ -6,17 +6,24 @@ const refs = {
 };
 const CountdownTimer = {
   intervalId: null,
+  targetDate: null,
+  getTargetDate() {
+    if (this.targetDate > Date.now())
+      this.updateClockface(this.targetDate - Date.now());
+  },
+
   countDown(date) {
+    this.targetDate = new Date(date);
     if (this.intervalId) return;
-    const targetDate = new Date(date);
+    this.getTargetDate();
     this.intervalId = setInterval(() => {
-      // const currentDate = Date.now();
-      targetDate > Date.now()
-      ? this.updateClockface(targetDate - Date.now())
-     : clearInterval(this.intervalId), 
-        (this.intervalId = null);
+      this.getTargetDate();
+      if (this.targetDate < Date.now()) {
+        clearInterval(this.intervalId), (this.intervalId = null);
+      }
     }, 1000);
   },
+
   updateClockface(time) {
     const days = this.pad(Math.floor(time / (1000 * 60 * 60 * 24)));
     const hours = this.pad(
